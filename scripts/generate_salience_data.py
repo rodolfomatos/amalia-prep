@@ -80,6 +80,7 @@ def generate_example(seed: int) -> dict:
         "id": f"salience_{seed:04d}",
         "conteudo": conteudo,
         "ilhas": islands,
+        "relacoes": [r for ilha in islands for r in ilha["relacoes"]],
         "novidade_esperada": round(novidade, 2),
         "total_relacoes": total_relations,
         "tipos_relacao": n_relation_types,
