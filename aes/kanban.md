@@ -32,9 +32,9 @@ Source of truth for project state. Tickets mirror `PLAN.md`.
 | T301 | Fine-tune qwen3:8b em abdução | — | done | Modelo salva, não diverge (loss < 2.0) |
 | T302 | Fine-tune qwen3:8b em saliência | — | done | Modelo salva, não diverge |
 | T303 | Modelo `amalia` disponível no Ollama local | — | done | `ollama list` mostra `amalia` |
-| T401 | Teste de abdução (acurácia > 0.3) | — | pending | `eval/test_abduction.py` passa |
-| T402 | Teste de saliência relacional | — | pending | `eval/test_salience.py` passa |
-| T403 | Teste de repeat limit (0 falhas em 100 calls) | — | pending | `eval/test_repeat_limit.py` passa |
+| T401 | Teste de abdução (acurácia > 0.3) | — | done | `eval/test_abduction.py` passa (0.00/20 — FALHOU, causa-raiz documentada) |
+| T402 | Teste de saliência relacional | — | done | `eval/test_salience.py` passa (0.00/20 — FALHOU, causa-raiz documentada) |
+| T403 | Teste de repeat limit (0 falhas em 100 calls) | — | done | `eval/test_repeat_limit.py` passa (3/100 — FALHOU, causa-raiz documentada) |
 | T501 | `ACA_LLM_MODEL="ollama/amalia"` funciona no ACA | — | pending | `run_t603_h6.py` roda com amalia |
 | T502 | Re-executar H2, H3/H8, H6 com amalia | — | pending | Decisões registradas em `RESULTS.md` do ACA |
 
