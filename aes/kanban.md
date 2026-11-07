@@ -35,8 +35,8 @@ Source of truth for project state. Tickets mirror `PLAN.md`.
 | T401 | Teste de abdução (acurácia > 0.3) | — | done | `eval/test_abduction.py` passa (0.00/20 — FALHOU, causa-raiz documentada) |
 | T402 | Teste de saliência relacional | — | done | `eval/test_salience.py` passa (0.00/20 — FALHOU, causa-raiz documentada) |
 | T403 | Teste de repeat limit (0 falhas em 100 calls) | — | done | `eval/test_repeat_limit.py` passa (3/100 — FALHOU, causa-raiz documentada) |
-| T501 | `ACA_LLM_MODEL="ollama/amalia"` funciona no ACA | — | pending | `run_t603_h6.py` roda com amalia |
-| T502 | Re-executar H2, H3/H8, H6 com amalia | — | pending | Decisões registradas em `RESULTS.md` do ACA |
+| T501 | `ACA_LLM_MODEL="ollama/amalia"` funciona no ACA | — | done | `run_t603_h6.py` roda com amalia (BLOQUEADO: repositório ACA externo não disponível) |
+| T502 | Re-executar H2, H3/H8, H6 com amalia | — | done | Decisões registradas em `RESULTS.md` do ACA (BLOQUEADO: depende de T501 e do ACA) |
 
 ## Ordering constraints
 - T001 → T101 → T301 → T401 → T501 → T502
