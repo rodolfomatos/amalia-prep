@@ -1,0 +1,24 @@
+FROM qwen3:8b
+
+# Parâmetros de amostragem para respostas curtas e focadas
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER top_k 40
+PARAMETER repeat_penalty 1.15
+PARAMETER num_predict 200
+PARAMETER stop "###"
+PARAMETER stop "Observação:"
+PARAMETER stop "Contexto:"
+PARAMETER stop "Tarefa:"
+PARAMETER stop "Resposta:"
+PARAMETER stop "Mecanismo:"
+
+# Template de prompt para abdução
+TEMPLATE """{{ .System }}
+
+### Observação: {{ .Prompt }}
+
+### Tarefa: Adivinhe a variável latente escondida a partir das relações observadas.
+A variável latente NÃO está presente no contexto — infira-a a partir dos padrões.
+
+### Resposta:"""
