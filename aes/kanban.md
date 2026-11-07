@@ -27,7 +27,7 @@ Source of truth for project state. Tickets mirror `PLAN.md`.
 | T102 | 5 categorias de latente (como dataset do ACA) | sprint-01 | done | 20 exemplos por categoria |
 | T103 | Dataset válido (JSONL, sem duplicatas) | sprint-01 | done | 100 linhas, todas únicas, schema válido |
 | T201 | 50 exemplos de ilha → conteúdo conectado/isolado | sprint-01 | done | Cada exemplo tem `ilhas`, `relacoes`, `conteudo`, `novidade_esperada` |
-| T202 | Ilhas com múltiplos tipos de relação | sprint-01 | pending | Pelo menos 3 tipos diferentes (RELATED_TO, CONTRADIZ, COMPLEMENTA) |
+| T202 | Ilhas com múltiplos tipos de relação | sprint-01 | done | Pelo menos 3 tipos diferentes (RELATED_TO, CONTRADIZ, COMPLEMENTA) |
 | T203 | Dataset válido (JSONL, sem duplicatas) | sprint-01 | pending | 50 linhas, todas únicas, schema válido |
 | T301 | Fine-tune qwen3:8b em abdução | — | pending | Modelo salva, não diverge (loss < 2.0) |
 | T302 | Fine-tune qwen3:8b em saliência | — | pending | Modelo salva, não diverge |
