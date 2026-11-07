@@ -31,7 +31,7 @@ Source of truth for project state. Tickets mirror `PLAN.md`.
 | T203 | Dataset válido (JSONL, sem duplicatas) | sprint-01 | done | 50 linhas, todas únicas, schema válido |
 | T301 | Fine-tune qwen3:8b em abdução | — | done | Modelo salva, não diverge (loss < 2.0) |
 | T302 | Fine-tune qwen3:8b em saliência | — | done | Modelo salva, não diverge |
-| T303 | Modelo `amalia` disponível no Ollama local | — | pending | `ollama list` mostra `amalia` |
+| T303 | Modelo `amalia` disponível no Ollama local | — | done | `ollama list` mostra `amalia` |
 | T401 | Teste de abdução (acurácia > 0.3) | — | pending | `eval/test_abduction.py` passa |
 | T402 | Teste de saliência relacional | — | pending | `eval/test_salience.py` passa |
 | T403 | Teste de repeat limit (0 falhas em 100 calls) | — | pending | `eval/test_repeat_limit.py` passa |
