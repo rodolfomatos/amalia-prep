@@ -11,3 +11,4 @@ models/
 *.jsonl
 data/*.jsonl
 .DS_Store
+.venv/

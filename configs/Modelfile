@@ -1,4 +1,4 @@
-FROM qwen3:8b
+FROM /home/rodolfo/amalia-prep/models/amalia-merged/amalia.f16.gguf
 
 # Parâmetros de amostragem para respostas curtas e focadas
 PARAMETER temperature 0.7
