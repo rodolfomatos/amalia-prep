@@ -64,17 +64,16 @@ def format_salience_example(example: dict) -> str:
     )
 
 
-def prepare_dataset(abduction_path: str, salience_path: str) -> Dataset:
-    """Prepara o dataset de treino combinando abdução e saliência."""
+def prepare_dataset(abduction_path: str, salience_path: str | None = None) -> Dataset:
+    """Prepara o dataset de treino combinando abdução e (opcionalmente) saliência."""
     abduction_examples = load_jsonl(abduction_path)
-    salience_examples = load_jsonl(salience_path)
-
     texts = []
     for ex in abduction_examples:
         texts.append(format_abduction_example(ex))
-    for ex in salience_examples:
-        texts.append(format_salience_example(ex))
-
+    if salience_path:
+        salience_examples = load_jsonl(salience_path)
+        for ex in salience_examples:
+            texts.append(format_salience_example(ex))
     return Dataset.from_list([{"text": t} for t in texts])
 
 
@@ -93,7 +92,7 @@ def main():
     parser.add_argument("--base-model", required=True, help="Modelo base HF (ex: Qwen/Qwen3-8B)")
     parser.add_argument("--output-model", required=True, help="Nome do modelo de saída")
     parser.add_argument("--train-data", required=True, help="Arquivo JSONL de abdução")
-    parser.add_argument("--salience-data", required=True, help="Arquivo JSONL de saliência")
+    parser.add_argument("--salience-data", required=False, default=None, help="Arquivo JSONL de saliência (opcional)")
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--learning-rate", type=float, default=2e-4)
