@@ -59,9 +59,10 @@ OBSERVATION_TEMPLATES = [
 ]
 
 
-def generate_example(seed: int) -> dict:
+def generate_example(seed: int, category: str | None = None) -> dict:
     rng = random.Random(seed)
-    category = rng.choice(list(LATENT_CATEGORIES.keys()))
+    if category is None:
+        category = rng.choice(list(LATENT_CATEGORIES.keys()))
     latent = rng.choice(LATENT_CATEGORIES[category])
     palavra_chave = latent.split()[-1] if len(latent.split()) > 1 else latent
 
@@ -112,12 +113,25 @@ def main():
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        for i in range(args.count):
-            example = generate_example(i)
-            f.write(json.dumps(example, ensure_ascii=False) + "\n")
+    n_categories = len(LATENT_CATEGORIES)
+    base, remainder = divmod(args.count, n_categories)
+    ordered_cats = sorted(LATENT_CATEGORIES)
+    # Distribui `args.count` igualmente pelas categorias; o resto (se houver)
+    # vai para as primeiras categorias ordenadas.
+    cat_counts = {
+        cat: base + (1 if i < remainder else 0)
+        for i, cat in enumerate(ordered_cats)
+    }
 
-    print(f"Gerados {args.count} exemplos em {output_path}")
+    with open(output_path, "w", encoding="utf-8") as f:
+        idx = 0
+        for cat in ordered_cats:
+            for _ in range(cat_counts[cat]):
+                example = generate_example(idx, category=cat)
+                f.write(json.dumps(example, ensure_ascii=False) + "\n")
+                idx += 1
+
+    print(f"Gerados {idx} exemplos em {output_path}")
 
 
 if __name__ == "__main__":

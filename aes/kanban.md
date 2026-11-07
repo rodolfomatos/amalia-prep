@@ -24,7 +24,7 @@ Source of truth for project state. Tickets mirror `PLAN.md`.
 | T002 | Script de fine-tune (QLoRA) | sprint-01 | pending | `make train` executa e produz modelo |
 | T003 | Script de avaliação offline | sprint-01 | pending | `make eval` roda 3 testes e reporta métricas |
 | T101 | 100 exemplos de observação → mecanismo latente | sprint-01 | done | Cada exemplo tem `observation`, `latent_variable`, `context` |
-| T102 | 5 categorias de latente (como dataset do ACA) | sprint-01 | pending | 20 exemplos por categoria |
+| T102 | 5 categorias de latente (como dataset do ACA) | sprint-01 | done | 20 exemplos por categoria |
 | T103 | Dataset válido (JSONL, sem duplicatas) | sprint-01 | pending | 100 linhas, todas únicas, schema válido |
 | T201 | 50 exemplos de ilha → conteúdo conectado/isolado | sprint-01 | pending | Cada exemplo tem `ilhas`, `relacoes`, `conteudo`, `novidade_esperada` |
 | T202 | Ilhas com múltiplos tipos de relação | sprint-01 | pending | Pelo menos 3 tipos diferentes (RELATED_TO, CONTRADIZ, COMPLEMENTA) |
