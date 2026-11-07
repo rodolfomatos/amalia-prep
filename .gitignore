@@ -10,5 +10,9 @@ htmlcov/
 models/
 *.jsonl
 data/*.jsonl
+# Excecao: versionar os datasets sinteticos de treino (entregaveis de M1/M2).
+# Pequenos (<1 MB), gerados de forma determinística pelos scripts em scripts/,
+# e necessários para auditoria/reproducao dos tickets T101-T103 e T201-T203.
+!data/*.jsonl
 .DS_Store
 .venv/
