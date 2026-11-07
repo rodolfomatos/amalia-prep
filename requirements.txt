@@ -1,9 +1,10 @@
-# Amália — Dependências de preparação de modelo
-torch>=2.0.0
-transformers>=4.35.0
-peft>=0.6.0
-bitsandbytes>=0.41.0
-datasets>=2.14.0
-accelerate>=0.20.0
-ruff>=0.1.0
-pytest>=7.0.0
+# Amália — Dependências de preparação de modelo (versões fixas para reprodutibilidade do ambiente de treino)
+# Fixado em T001 para que `make setup` produza o mesmo ambiente em qualquer máquina.
+torch==2.15.0
+transformers==5.22.2
+peft==0.21.2
+bitsandbytes==0.50.2
+datasets==5.1.0
+accelerate==1.15.0
+ruff==0.17.4
+pytest==9.2.0
