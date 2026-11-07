@@ -11,18 +11,21 @@
 #   check     - gate: lint + testes + critérios de aceitação
 #   clean     - limpar artefatos gerados
 
-PYTHON   ?= python3
-PIP      ?= pip3
+PYTHON   ?= .venv/bin/python
+PIP      ?= .venv/bin/pip
 OLLAMA   ?= ollama
 MODEL    ?= amalia
 BASE     ?= qwen3:8b
 DATA_DIR ?= data
 SRC_DIR  ?= src
 EVAL_DIR ?= eval
+VENV     ?= .venv
 
 .PHONY: setup data train eval push check clean help lint
 
 setup:
+	@echo "=== Criando virtualenv ==="
+	test -d $(VENV) || python3 -m venv $(VENV)
 	@echo "=== Instalando dependências ==="
 	$(PIP) install --upgrade pip
 	$(PIP) install -r requirements.txt

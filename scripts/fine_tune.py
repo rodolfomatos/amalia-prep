@@ -13,7 +13,7 @@ from pathlib import Path
 
 try:
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments
+    from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, BitsAndBytesConfig
     from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
     from bitsandbytes import __version__ as bnb_version
     from datasets import Dataset
@@ -90,7 +90,7 @@ def tokenize_function(examples, tokenizer):
 
 def main():
     parser = argparse.ArgumentParser(description="Fine-tune QLoRA para Amália")
-    parser.add_argument("--base-model", required=True, help="Modelo base (ex: qwen3:8b)")
+    parser.add_argument("--base-model", required=True, help="Modelo base HF (ex: Qwen/Qwen3-8B)")
     parser.add_argument("--output-model", required=True, help="Nome do modelo de saída")
     parser.add_argument("--train-data", required=True, help="Arquivo JSONL de abdução")
     parser.add_argument("--salience-data", required=True, help="Arquivo JSONL de saliência")
@@ -103,6 +103,7 @@ def main():
     print(f"Carregando modelo base: {args.base_model}")
     print(f"Dataset de abdução: {args.train_data}")
     print(f"Dataset de saliência: {args.salience_data}")
+    print(f"Modelo de saída: {args.output_model}")
 
     # Carregar datasets
     train_dataset = prepare_dataset(args.train_data, args.salience_data)
@@ -110,14 +111,38 @@ def main():
 
     # Carregar modelo e tokenizer
     print("Carregando modelo e tokenizer...")
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_use_double_quant=True,
+    )
     model = AutoModelForCausalLM.from_pretrained(
         args.base_model,
-        load_in_4bit=True,
+        quantization_config=bnb_config,
         device_map="auto",
         trust_remote_code=True
     )
     tokenizer = AutoTokenizer.from_pretrained(args.base_model, trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
+
+    # Tokenizar o dataset
+    def tokenize_function(examples):
+        result = tokenizer(
+            examples["text"],
+            truncation=True,
+            padding="max_length",
+            max_length=args.max_length,
+        )
+        result["labels"] = result["input_ids"].copy()
+        return result
+
+    train_dataset = train_dataset.map(
+        tokenize_function,
+        batched=True,
+        remove_columns=["text"]
+    )
+    train_dataset.set_format("torch")
 
     # Preparar para k-bit training
     model = prepare_model_for_kbit_training(model)
@@ -144,7 +169,8 @@ def main():
         logging_steps=10,
         save_steps=50,
         fp16=True,
-        report_to="none"
+        report_to="none",
+        remove_unused_columns=False
     )
 
     # Treinar
@@ -153,7 +179,7 @@ def main():
         model=model,
         args=training_args,
         train_dataset=train_dataset,
-        tokenizer=tokenizer
+        processing_class=tokenizer
     )
     trainer.train()
 
