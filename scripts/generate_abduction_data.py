@@ -94,6 +94,7 @@ def generate_example(seed: int) -> dict:
         "id": f"abduction_{seed:04d}",
         "category": category,
         "observation": observation,
+        "latent_variable": latent,
         "context": context,
         "ground_truth": {
             "latent_variable": latent,
