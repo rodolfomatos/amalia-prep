@@ -64,12 +64,16 @@ def format_salience_example(example: dict) -> str:
     )
 
 
-def prepare_dataset(abduction_path: str, salience_path: str | None = None) -> Dataset:
-    """Prepara o dataset de treino combinando abdução e (opcionalmente) saliência."""
-    abduction_examples = load_jsonl(abduction_path)
+def prepare_dataset(abduction_path: str | None = None, salience_path: str | None = None) -> Dataset:
+    """Prepara o dataset de treino a partir de abdução e/ou saliência.
+    Pelo menos um dos caminhos deve ser fornecido."""
+    if not abduction_path and not salience_path:
+        raise ValueError("Forneça ao menos um de --train-data ou --salience-data")
     texts = []
-    for ex in abduction_examples:
-        texts.append(format_abduction_example(ex))
+    if abduction_path:
+        abduction_examples = load_jsonl(abduction_path)
+        for ex in abduction_examples:
+            texts.append(format_abduction_example(ex))
     if salience_path:
         salience_examples = load_jsonl(salience_path)
         for ex in salience_examples:
@@ -91,7 +95,7 @@ def main():
     parser = argparse.ArgumentParser(description="Fine-tune QLoRA para Amália")
     parser.add_argument("--base-model", required=True, help="Modelo base HF (ex: Qwen/Qwen3-8B)")
     parser.add_argument("--output-model", required=True, help="Nome do modelo de saída")
-    parser.add_argument("--train-data", required=True, help="Arquivo JSONL de abdução")
+    parser.add_argument("--train-data", required=False, default=None, help="Arquivo JSONL de abdução (opcional)")
     parser.add_argument("--salience-data", required=False, default=None, help="Arquivo JSONL de saliência (opcional)")
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=4)
